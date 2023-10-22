@@ -32,7 +32,6 @@ export default async function Browse() {
       id: name?.value,
     }
   })
-  var listedItems = Reset(items)
   return (
     <div >
       <UpdateSortS sorting={user!.sorting}/>

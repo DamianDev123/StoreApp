@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";``
+import React from "react";
 import { PrismaClient } from '@prisma/client'
 import { cookies } from 'next/headers'
 import SetCookie from "./cookie";
@@ -9,27 +9,7 @@ const prisma = new PrismaClient()
 ;
 
 export default async function Home() {
-  const name = cookies().get("user")
-  var newName = "";
-  if(!name){
-    newName = new ObjectId() as unknown  as string;
-  }else {
-    const i = await prisma.users.findMany({
-      where: {
-        id:name.value,
-    },
-    })
-    if(i.length==0){
-      await prisma.users.create({
-        data: {
-          id: name.value,
-          cart: [],
-          sorting: {"Filter":"","Sort":"","min":"","max":""}
-        }
-      })
-    }
-    
-  }
+
   const items = await prisma.items.findMany({
     where: {
       Release: true,
@@ -38,7 +18,6 @@ export default async function Home() {
   const item = await prisma.release.findFirst()
   return (
     <main>
-      {!name &&  <SetCookie name="user" value={newName}/>}
         <div className="text-light top-[17.5%] left-[20%] absolute bg-lcream w-[225px] h-[266px] flex justify-center">
           
           <h1 className="text-3xl mx-7 relative -left-[90px] font-semibold">NEW RELEASE</h1>

@@ -6,6 +6,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { cookies } from 'next/headers'
 import { AddButton, SubButton } from '../Button';
+import Refresh from './Refresh';
+
 const prisma = new PrismaClient()
 const itemType = {
   name:"",
@@ -49,7 +51,7 @@ async function Items({item=itemType}){
   )
 }
 export default async function Cart({searchParams} :{
-  searchParams: {name:string}
+  searchParams: {itemid:string}
 }) {
   const name = cookies().get("user")
   const user = await prisma.users.findUnique({
@@ -57,16 +59,17 @@ export default async function Cart({searchParams} :{
       id: name?.value,
     }
   })
-  if(searchParams.name){
+  if(searchParams.itemid){
+
     const item = (await prisma.items.findMany({
       where: {
-        id:searchParams.name,
+        id:searchParams.itemid,
       }
     }))[0]
-    if(user?.cart.some(e => e.name == searchParams?.name)){
+    if(user?.cart.some(e => e.name == searchParams?.itemid)){
       for(var i in user?.cart){
         
-        if(user?.cart[i].name == searchParams?.name && user?.cart[i].quantity < item.Stock){
+        if(user?.cart[i].name == searchParams?.itemid && user?.cart[i].quantity < item.Stock){
           user.cart[i].quantity+=1
           await prisma.users.update({
             where: {
@@ -81,7 +84,7 @@ export default async function Cart({searchParams} :{
     }
     else {
       if(user!.cart.length < 3){
-        user?.cart.push({name:searchParams?.name,quantity:1,price:item?.Price})
+        user?.cart.push({name:searchParams?.itemid,quantity:1,price:item?.Price})
         await prisma.users.update({
           where: {
             id: name?.value,
@@ -135,6 +138,7 @@ export default async function Cart({searchParams} :{
               </ul>
           </div>
           
+      <Refresh searchParams={searchParams}/>
       </main>
     )
   }
@@ -171,6 +175,7 @@ export default async function Cart({searchParams} :{
         <div className='absolute -bottom-[200px] h-1 left-[50%] -translate-x-[50%]'>&nbsp;</div>
         
       </div>
+      <Refresh searchParams={searchParams}/>
     </main>
   )
 }

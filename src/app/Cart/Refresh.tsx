@@ -1,13 +1,18 @@
+"use client"
 import React from 'react'
-import { useRouter } from "next/navigation";
+import { useRouter,usePathname } from "next/navigation";
 
-export default function Refresh({refresh=false}) {
+export default function Refresh({searchParams} :{
+  searchParams: {itemid:string}
+}) {
     
   const router = useRouter();
-  if (refresh==true) {
-    router.refresh();
+  const pathname = usePathname()
+  if(searchParams.itemid){
+    router.replace(pathname,undefined)
+    router.refresh()
   }
   return (
-    <div className='absolute'>Refresh</div>
+    <></>
   )
 }

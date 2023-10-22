@@ -1,13 +1,10 @@
 'use server'
-import React from 'react';
 import { PrismaClient } from '@prisma/client';
 import { cookies } from 'next/headers';
 const prisma = new PrismaClient()
-const itemType = {
-  name:"",
-  quantity:0,
-}
+
 export async function Add(formData: FormData) {
+    
     const name = Object.fromEntries(formData.entries())["text"] as string;
     const username = cookies().get("user")
     const user = await prisma.users.findUnique({
@@ -33,6 +30,7 @@ export async function Add(formData: FormData) {
                     },
                 })
             }
+            
 
         }
     }
@@ -76,5 +74,4 @@ export async function Sub(formData: FormData) {
         }
     }
     return;
-  }
-  
+}
