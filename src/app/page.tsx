@@ -23,7 +23,7 @@ export default async function Home() {
           <h1 className="text-3xl mx-7 relative -left-[90px] font-semibold">NEW RELEASE</h1>
           
         </div>
-        <Image alt="" width={180} height={340} className="my-4 top-[17.5%] mx-4 absolute right-[0] " src={item!.images[0] || ""} />
+        <Image alt="" width={180} height={340} className="my-4 top-[17.5%] mx-4 absolute right-[0] " src={item!.images || ""} />
         <div className="text-light top-[62%] absolute">
           <h1 className="text-4xl mx-6 font-semibold">SHOP NOW!</h1>
           <h1 className="text-3xl mx-6 font-semibold">Or Sell.</h1>

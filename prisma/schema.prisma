@@ -23,10 +23,7 @@ type UsersSorting {
 
 model Release {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  Description String
-  Name        String
-  Price       Int @default(0)
-  images      String[]
+  images      String
 }
 
 model Users {
